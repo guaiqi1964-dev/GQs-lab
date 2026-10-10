@@ -148,14 +148,21 @@ devils-roulette/
 │   ├── manifest.json      # 段表 / 函数表 / 字符串表的结构化导出
 │   └── disasm/            # 关键函数的反汇编（build_gun_duo / danrenplay / 恶魔回合）
 └── tools/                 # 本次逆向用到的自研工具
-    ├── dec2.py            # x86-64 解码器（Intel 语法）
+    ├── dec2.py            # x86-64 解码器（Intel 语法）—— 通用，无外部依赖
     ├── linear.py          # 线性扫描反汇编 + .pdata 函数边界
     ├── pdata.py           # RUNTIME_FUNCTION 解析
     ├── xref.py            # 全局变量与字符串交叉引用
     ├── fmtcheck.py        # printf 格式串 / 参数个数一致性校验
     ├── coverage.py        # 文案覆盖率校验
-    └── ai_bench2.py       # AI 强度无头基准
+    └── ai_bench2.py       # AI 强度无头基准（可独立运行）
 ```
+
+> 关于 `tools/`：`ai_bench2.py` 可以直接运行（它自带规则模型）。
+> 其余脚本是当时分析原 EXE 时写的一次性工具，里面保留了指向当时工作目录的
+> **绝对路径**，直接拿到别的机器上跑需要先改路径 —— 它们的价值主要在于
+> **记录还原过程是怎么做的**（PE/COFF 解析、`.pdata` 取函数边界、
+> 线性扫描、RIP 相对寻址交叉引用），而不是开箱即用的工具包。
+> 其中 `dec2.py`（x86-64 解码器）是干净的可复用模块。
 
 ---
 
